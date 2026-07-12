@@ -1,0 +1,70 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '${DB_PORT:-5433}:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  localstack:
+    image: localstack/localstack:3
+    environment:
+      SERVICES: s3
+    volumes:
+      - ./localstack/init-s3.sh:/etc/localstack/init/ready.d/init-s3.sh
+    healthcheck:
+      test: ['CMD-SHELL', 'awslocal s3 ls s3://datashare']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  back:
+    build:
+      context: .
+      dockerfile: back/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      STORAGE_PATH: /data/storage
+      STORAGE_DRIVER: s3
+      S3_ENDPOINT: http://localstack:4566
+      S3_REGION: us-east-1
+      S3_BUCKET: datashare
+      S3_FORCE_PATH_STYLE: 'true'
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      FRONT_URL: ${FRONT_URL}
+      PURGE_CRON: ${PURGE_CRON}
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    volumes:
+      - file_storage:/data/storage
+    depends_on:
+      db:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+
+  front:
+    build:
+      context: .
+      dockerfile: front/Dockerfile
+    ports:
+      - '${FRONT_PORT:-4200}:80'
+    depends_on:
+      - back
+
+volumes:
+  db_data:
+  file_storage:

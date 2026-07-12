@@ -1,0 +1,60 @@
+name: datashare-test
+
+services:
+  db-test:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: datashare_test
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U test -d datashare_test']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  back-test:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - test_modules:/app/node_modules
+      - /app/back/node_modules
+      - /app/front/node_modules
+      - /app/shared/node_modules
+    environment:
+      DATABASE_URL: postgresql://test:test@db-test:5432/datashare_test?schema=public
+      JWT_SECRET: test-secret
+      CI: 'true'
+    depends_on:
+      db-test:
+        condition: service_healthy
+    command: >
+      sh -c "npm ci
+      && npm run build -w @datashare/shared
+      && npm run prisma:generate -w @datashare/back
+      && npm run prisma:deploy -w @datashare/back
+      && npm run test:cov -w @datashare/back
+      && npm run test:e2e -w @datashare/back"
+
+  front-test:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - test_modules_front:/app/node_modules
+      - /app/back/node_modules
+      - /app/front/node_modules
+      - /app/shared/node_modules
+    environment:
+      CI: 'true'
+    command: >
+      sh -c "npm ci
+      && npm run build -w @datashare/shared
+      && npm test -w front -- --watch=false --coverage"
+
+volumes:
+  test_modules:
+  test_modules_front:
