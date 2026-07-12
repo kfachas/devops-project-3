@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  files        File[]
+}
+
+model File {
+  id            String    @id @default(uuid())
+  owner         User?     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId       String?
+  originalName  String
+  storedPath    String
+  mimeType      String
+  sizeBytes     BigInt
+  downloadToken String    @unique
+  passwordHash  String?
+  expiresAt     DateTime
+  createdAt     DateTime  @default(now())
+  tags          FileTag[]
+
+  @@index([ownerId])
+  @@index([expiresAt])
+}
+
+model Tag {
+  id    String    @id @default(uuid())
+  label String    @unique
+  files FileTag[]
+}
+
+model FileTag {
+  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  fileId String
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId  String
+
+  @@id([fileId, tagId])
+}
