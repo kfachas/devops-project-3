@@ -1,0 +1,67 @@
+:root {
+  --ds-orange: #e27f29;
+  --ds-orange-dark: #cd5e14;
+  --ds-orange-darker: #ba681f;
+  --ds-orange-light: #ffa569;
+  --ds-orange-100: #ffc191;
+  --ds-peach: #ffb88c;
+  --ds-coral: #de6262;
+  --ds-coral-light: #e77a6e;
+
+  --ds-ink: #1e1e1e;
+  --ds-ink-soft: #2c2c2c;
+  --ds-brown: #302520;
+
+  --ds-surface: #ffffff;
+  --ds-cream: #f3eeea;
+  --ds-tint: #fff7f7;
+  --ds-tint-2: #ffeeec;
+
+  --ds-muted: #aea49b;
+  --ds-muted-2: #b7a79c;
+  --ds-border: #d9d9d9;
+  --ds-placeholder: #b3b3b3;
+
+  --ds-info: #2a3f72;
+  --ds-info-bg: #eaf0fb;
+  --ds-warning: #e27f29;
+  --ds-warning-bg: #fff1e6;
+  --ds-danger: #9c3333;
+  --ds-danger-soft: #de6262;
+  --ds-danger-bg: #fdecec;
+
+  --ds-gradient: linear-gradient(180deg, #ffb88c 0%, #de6262 100%);
+
+  --ds-radius-sm: 8px;
+  --ds-radius-md: 12px;
+  --ds-radius-lg: 16px;
+  --ds-radius-xl: 24px;
+  --ds-radius-full: 999px;
+
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 24px;
+  --ds-space-6: 32px;
+  --ds-space-7: 48px;
+
+  --ds-font: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ds-font-heading: var(--ds-font);
+
+  --ds-text-xs: 12px;
+  --ds-text-sm: 14px;
+  --ds-text-md: 16px;
+  --ds-text-lg: 20px;
+  --ds-text-xl: 28px;
+  --ds-text-2xl: 32px;
+
+  --ds-weight-regular: 400;
+  --ds-weight-medium: 500;
+  --ds-weight-semibold: 600;
+  --ds-weight-bold: 700;
+
+  --ds-shadow-sm: 0 2px 8px rgba(48, 37, 32, 0.08);
+  --ds-shadow-card: 0 10px 30px rgba(48, 37, 32, 0.12);
+  --ds-ring: 0 0 0 3px rgba(226, 127, 41, 0.35);
+}

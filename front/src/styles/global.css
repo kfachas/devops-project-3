@@ -1,0 +1,46 @@
+@import './tokens.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ds-font);
+  font-size: var(--ds-text-md);
+  line-height: 1.5;
+  color: var(--ds-ink);
+  background: var(--ds-cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--ds-font-heading);
+  margin: 0;
+  line-height: 1.25;
+}
+
+a {
+  color: var(--ds-orange);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-ring);
+  border-radius: var(--ds-radius-sm);
+}
