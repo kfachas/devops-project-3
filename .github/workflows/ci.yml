@@ -1,0 +1,48 @@
+name: CI
+
+on: push
+
+jobs:
+  back-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: datashare_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test -d datashare_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://test:test@localhost:5432/datashare_test?schema=public
+      JWT_SECRET: test-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run build -w @datashare/shared
+      - run: npm run prisma:generate -w @datashare/back
+      - run: npm run prisma:deploy -w @datashare/back
+      - run: npm run test:cov -w @datashare/back
+      - run: npm run test:e2e -w @datashare/back
+
+  front-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run build -w @datashare/shared
+      - run: npm test -w front -- --watch=false --coverage
