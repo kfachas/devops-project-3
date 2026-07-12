@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/coverage
+.git
+**/.env
+back/storage
+docs
+design
+**/*.md

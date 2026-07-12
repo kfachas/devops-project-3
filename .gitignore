@@ -1,0 +1,15 @@
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+**/coverage/
+front/cypress/videos/
+front/cypress/screenshots/
+front/cypress/downloads/
+shared/dist/
+back/storage/
+.env
+**/.env
+*.local
+.DS_Store
+.claude

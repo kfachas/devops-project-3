@@ -1,0 +1,13 @@
+{
+  "name": "datashare",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "back",
+    "front"
+  ],
+  "devDependencies": {
+    "jsdom": "^28.1.0"
+  }
+}
