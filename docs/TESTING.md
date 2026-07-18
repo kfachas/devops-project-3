@@ -1,7 +1,7 @@
 # TESTING.md — Plan de tests DataShare
 
 > Périmètre testé : **US01 → US10**. Objectif de couverture : **≥ 70 %** — **atteint**.
-> Dernière exécution complète : **2026-07-12** — **124 tests verts** (54 unitaires back + 21 e2e API + 49 front)
+> Dernière exécution complète : **2026-07-18** — **126 tests verts** (54 unitaires back + 21 e2e API + 51 front)
 > + 1 parcours critique navigateur (Cypress, exécution manuelle — voir plus bas). Suite désormais rejouée
 > automatiquement à chaque push (GitHub Actions, back+front, hors Cypress).
 
@@ -16,7 +16,7 @@ qui rejoue les parcours réels contre une vraie base PostgreSQL, et des tests de
 | Intégration | **Supertest** (`test/app.e2e-spec.ts`, base PostgreSQL réelle) | **React Testing Library** (pages avec hooks API mockés) |
 | End-to-end navigateur | — | **Cypress** — 1 parcours critique (inscription → upload → lien → téléchargement → historique), exécution **manuelle** contre la stack Docker (jamais en CI) |
 
-## Résultats (2026-07-01)
+## Résultats (2026-07-18)
 
 ### Back — unitaires (Jest) : 54 tests, 13 suites ✅
 
@@ -48,13 +48,13 @@ de stockage S3 annule l'upload multipart et nettoie le fichier temporaire en cas
 ciblés (pas de fixture de 100 Mo+ réelle, jugée inutilement lente pour la valeur apportée) : `multer-exception.filter.spec.ts`,
 `staging-cleanup.service.spec.ts`, `s3-storage.service.spec.ts`.
 
-### Front — Vitest + React Testing Library : 49 tests, 13 suites ✅
+### Front — Vitest + React Testing Library : 51 tests, 13 suites ✅
 
 ```
-Statements   : 93.22% ( 936/1004 )
-Branches     : 86.59% ( 168/194 )
-Functions    : 77.94% ( 53/68 )
-Lines        : 93.22% ( 936/1004 )
+Statements   : 91.38% ( 997/1091 )
+Branches     : 86.40% ( 178/206 )
+Functions    : 73.68% ( 56/76 )
+Lines        : 91.38% ( 997/1091 )
 ```
 
 Seuil **70 %** appliqué par `front/vite.config.ts` (`coverage.thresholds`).
@@ -119,7 +119,7 @@ sur l'app lancée.
 ## Couverture — synthèse
 
 - Back : seuil 70 % **imposé** (`back/jest.config.js`, build de test échoue en dessous) ; mesuré **95 % lignes**.
-- Front : seuil 70 % **imposé** (`front/vite.config.ts`) ; mesuré **93 % lignes** (rapport `front/coverage/`).
+- Front : seuil 70 % **imposé** (`front/vite.config.ts`) ; mesuré **91 % lignes** (rapport `front/coverage/`).
 - Captures des rapports HTML incluses : [`reports/coverage-back.png`](./reports/coverage-back.png) et
   [`reports/coverage-front.png`](./reports/coverage-front.png) (rapports complets régénérables via
   `npm run test:cov -w @datashare/back` et `npm test -w front -- --coverage` → `back/coverage/`, `front/coverage/`).
