@@ -299,15 +299,15 @@ ne sont liés à aucun compte → aucun historique ni gestion (lien = seul moyen
 
 Suivi qualité réparti dans quatre fichiers du dossier `docs/`. Résumé :
 
-**[`TESTING.md`](./TESTING.md)** — Plan de tests — **124 tests verts** + 1 parcours Cypress (exécution 2026-07-12)
+**[`TESTING.md`](./TESTING.md)** — Plan de tests — **126 tests verts** + 1 parcours Cypress (exécution 2026-07-18)
 - **Unitaires back** : **Jest**, 54 tests (services auth/files/storage/tags/purge, contrôleurs, guards, pilotes de
   stockage, filtre d'exception upload, nettoyage staging) — couverture **95 % lignes** (seuil 70 % imposé par `coverageThreshold`).
 - **Intégration API** : **Supertest**, 21 tests contre une **vraie base PostgreSQL** — parcours critiques
   US01-US10 rejoués de bout en bout : `inscription → connexion → upload → lien` ; `téléchargement avec/sans
   mot de passe` ; `suppression + ownership` ; `upload anonyme` (US07) ; `tags + filtre` (US08) ; `expiration
   410 + purge` (US10) ; `429 sur abus de login`.
-- **Front** : **Vitest + React Testing Library**, 49 tests (composants `src/ui`, contexte d'auth, route protégée,
-  mutateur API/JWT + interception 401, pages connexion/inscription/espace/upload/téléchargement) — couverture **93 % lignes** (seuil 70 %).
+- **Front** : **Vitest + React Testing Library**, 51 tests (composants `src/ui`, contexte d'auth, route protégée,
+  mutateur API/JWT + interception 401, pages connexion/inscription/espace/upload/téléchargement) — couverture **91 % lignes** (seuil 70 %).
 - **E2E navigateur** : **Cypress**, 1 parcours critique (inscription → upload → téléchargement → historique),
   exécution manuelle contre la stack Docker.
 - **Accessibilité (PSH)** : composants natifs + focus visible + ARIA ; audit Lighthouse recommandé.
@@ -325,7 +325,7 @@ Suivi qualité réparti dans quatre fichiers du dossier `docs/`. Résumé :
 - Procédure **manuelle** de mise à jour des dépendances (`npm outdated` / `npm update`), fréquence, risques
   (breaking changes) et garde-fous (tests de non-régression, rejoués par la CI à chaque push).
 
-> ✅ `TESTING.md` (124 tests, couvertures réelles + captures, + 1 parcours Cypress), `SECURITY.md` (front :
+> ✅ `TESTING.md` (126 tests, couvertures réelles + captures, + 1 parcours Cypress), `SECURITY.md` (front :
 > **0 vulnérabilité livrée** ; back : 6 advisories transitives NestJS, **atténuées**) et `PERF.md` (**k6 exécuté** :
 > ≈ 3 073 req/s, p95 = 26 ms, 0 % d'erreur) sont alimentés en résultats réels. Les tests back+front sont rejoués
 > automatiquement à chaque push (`.github/workflows/ci.yml`).
